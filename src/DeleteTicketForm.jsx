@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react"
 
-export default function DeleteTicketForm({setDeleteForm, setAllRacesForm}) { 
+export default function DeleteTicketForm({setDeleteForm, setAllRacesForm, setReservationForm}) { 
 
     const [email, setEmail] = useState(""); 
     const [token, setToken] = useState(""); 
@@ -28,6 +28,11 @@ export default function DeleteTicketForm({setDeleteForm, setAllRacesForm}) {
         ).catch((ex) => alert("Wrong email or token")); 
 
 
+    }
+
+    function handleCancel() { 
+        setReservationForm(true); 
+        setDeleteForm(false); 
     }
 
 

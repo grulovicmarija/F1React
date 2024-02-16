@@ -8,7 +8,7 @@ import ReservationsMessage from "./ReservationsMessage";
 
 
 
-export default function ConfirmReservationForm({ selectedRaces, reservations, fullReservations, user, setConfirmation, setHomePage , setReservationForm}) {
+export default function ConfirmReservationForm({ selectedRaces, reservations, fullReservations, user, setConfirmation, setHomePage , setReservationForm, promoCode}) {
 
 
     const [previousReservations, setPreviousReservations] = useState([]); 
@@ -19,10 +19,11 @@ export default function ConfirmReservationForm({ selectedRaces, reservations, fu
     function getPreviousRaces() {
         axios.get(`https://localhost:7012/kupac/${user.id}`)
             .then((result) => {
+                setTimeout(() => {setWait(false)}, 2000); 
                 setPreviousReservations(result.data);
 
                 let begin = 0;
-                switch (previousReservations.length) {
+                switch (result.data.length) {
                     case 0:
                         begin = 0;
                         break;
@@ -49,12 +50,15 @@ export default function ConfirmReservationForm({ selectedRaces, reservations, fu
                     });
                 }
 
-                setTimeout(() => {setWait(false)}, 2000); 
+                
 
             })
             .catch((error) => {
                 console.log(error)
             })
+
+            
+            console.log(reservations);
     }
 
     
@@ -91,15 +95,23 @@ export default function ConfirmReservationForm({ selectedRaces, reservations, fu
                             </div>
 
                             <div className="w-full font-bold tracking-tight text-white lg:text-2xl">
-                                <h1>Please <span className=" text-[#e10600]">check</span> your tickets</h1>
+                                <h1 className="mb-1">Please <span className=" text-[#e10600]">check</span> your tickets</h1>
                             </div>
+
+                            {(promoCode!=null && promoCode!="") ? <div className="w-full font-normal tracking-tight text-white text-[16px] m-0">
+                                <h1 className="m-0">Your friend's Promo Code <span className=" text-[#e10600]">{promoCode}</span></h1>
+                            </div>: null}
+                           
 
                             <div className="flex items-center justify-center p-6">
                                 <div className="mx-auto w-full h-full max-w-[650px]">
-                                    <List fullReservations = {fullReservations} reservations={reservations} setDone={setDone} setHomePage = {setHomePage} setReservationForm = {setReservationForm}/>
+                                    <List fullReservations = {fullReservations} reservations={reservations} setDone={setDone} setHomePage = {setHomePage} setReservationForm = {setReservationForm}
+                                    promoCode={promoCode} user={user}/>
 
                                 </div>
                             </div>
+
+
                         </div>
                     </form>
                 </div>

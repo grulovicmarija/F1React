@@ -37,7 +37,7 @@ export default function ReservationsMessage({ user, setHomePage , setReservation
 
 
     return (
-        <section className="cursor-default bg-cover bg-[url('assets/talas3.png')] bg-gray-400 bg-blend-multiply h-[100vh] flex items-center justify-center">
+        <section className="cursor-default bg-cover bg-[url('assets/talas3.png')] bg-gray-400 bg-blend-multiply h-[110vh] flex items-center justify-center">
             <div className="flex items-center justify-center p-6">
                 <div className="mx-auto w-full h-full max-w-[650px]">
                     <form>
@@ -61,17 +61,24 @@ export default function ReservationsMessage({ user, setHomePage , setReservation
 
                             }
 
-                            <div className="w-full font-bold tracking-tight text-white lg:text-2xl">
-                                <h1 className='m-5'>All {user.ime}'s <span className=" text-[#e10600]">tickets</span></h1>
+                            <div className="w-full font-bold tracking-tight text-white lg:text-2xl flex flex-col items-center">
+                                <h1 className='mt-3 ml-5 mr-5 mb-0'>All {user.ime}'s <span className=" text-[#e10600]">tickets</span></h1>
+                                <div className="text-[14px] text-gray-400 font-normal">Your PROMO CODE: <span className='text-red-400'>{user.promoKod}</span></div>
                             </div>
 
                             <div className="flex items-center justify-center p-6">
                                 <div className="mx-auto w-full h-full max-w-[650px]">
-                                    <UserTicketsList  reservations={allRaces}/>
+                                    <UserTicketsList  reservations={allRaces} userId={user.id}/>
                                 </div>
                             </div>
+
+                          
+
                         </div>
+                        
                     </form>
+
+                    
                 </div>
             </div>
 

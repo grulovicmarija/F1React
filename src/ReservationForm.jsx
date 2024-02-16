@@ -15,8 +15,9 @@ import ReservationsMessage from "./ReservationsMessage";
 export default function ReservationForm({ user, setReservationForm, setHomePage, setDeleteForm, setBackToReservation, setAllRacesForm}) {
 
 
-
   const [zones, setZones] = useState([]);
+  const [filteredZones, setFilteredZones] = useState([]); 
+
   const [zone, setZone] = useState(null);
   const [email, setEmail] = useState("");
   const [reservations, setReservations] = useState([]);
@@ -25,6 +26,8 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
   const [races, setRaces] = useState([]);
   const [race, setRace] = useState(null);
 
+  const [hasPromo, setHasPromo] = useState(false); 
+  const [promoCode, setPromoCode] = useState(null); 
   const [confirmation, setConfirmation] = useState(false);
 
 
@@ -32,7 +35,10 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
  
   const [showReservations, setShowReservations] = useState(false); 
 
-  console.log("show res: " + showReservations);
+  const [bigTv, setBigTv] = useState(false); 
+  const [accessible, setAccessible] = useState(false); 
+
+  console.log(filteredZones); 
 
   useEffect(() => {
     getRaces();
@@ -160,6 +166,7 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
     axios.get("https://localhost:7012/api/Zone/zone")
       .then((result) => {
         setZones(result.data);
+        setFilteredZones(result.data); 
       })
       .catch((error) => {
         console.log(error)
@@ -184,10 +191,14 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
   }
 
 
+  
+
+
+
   if (!confirmation && !showReservations) {
     return (
 
-      <section if:true confirmation className="bg-cover bg-[url('assets/talas3.png')] bg-gray-400 bg-blend-multiply h-[100vh] flex items-center justify-center">
+      <section if:true confirmation className="cursor-default h-[110vh] bg-cover bg-[url('assets/talas3.png')] bg-gray-400 bg-blend-multiply flex items-center justify-center">
         <div className="flex items-center justify-center p-6">
           <div className="mx-auto w-full h-full max-w-[650px]">
             <form>
@@ -231,21 +242,54 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
 
 
 
-                <div className="px-3 w-full mb-4">
-                  <label htmlFor="guest" className="mb-2 block text-base text-white">
-                    How many tickets are you buying?
+               
+
+                <div className="px-3 w-2/3 mb-6">
+                  <label
+                    htmlFor="zone"
+                    className="mb-2 block text-base text-white">Zone
                   </label>
-                  <input
-                    type="number"
-                    name="guest"
-                    id="guest"
-                    defaultValue={1}
-                    step={1}
-                    min="1"
-                    className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
-                    onChange={(e) => setNumberOfTickets(e.target.value)}
-                  />
+                  <select id="zone" className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={(e) => { setZone(JSON.parse(e.target.value)) }}>
+                    <option defaultValue>Choose zone</option>
+                    {(bigTv===true && accessible===true) ? zones.filter((z) => z.velikiTV===true && z.pogodnaZaInvalide===true).map((item) => <option value={JSON.stringify(item)}>{item.naziv}</option>) : null}
+                    {(bigTv===true && accessible===false) ? zones.filter((z) => z.velikiTV===true).map((item) => <option value={JSON.stringify(item)}>{item.naziv}</option>) : null}
+                    {(bigTv===false && accessible===true) ? zones.filter((z) => z.pogodnaZaInvalide===true).map((item) => <option value={JSON.stringify(item)}>{item.naziv}</option>) : null}
+                    {(bigTv===false && accessible===false) ? zones.map((item) => <option value={JSON.stringify(item)}>{item.naziv}</option>) : null}
+                  </select>
                 </div>
+
+                <div className="w-1/3 mb-0 flex flex-col items-start justify-end pb-3">
+                <div class="flex ml-4 mt-0 mb-0">
+                  <div class="flex items-center h-5">
+                    <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="cursor-pointer mt-1 w-3 h-3 accent-[#e10600] text-[#e10600] rounded  focus:ring-[#e10600] ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                    onChange={() => {}}/>
+                  </div>
+                  <div class="ms-2 text-sm mt-[2px]">
+                    <p class="font-medium text-gray-300 text-[12px]">free drink</p>
+                  </div>
+                </div> 
+
+                <div class="flex ml-4 mt-0 mb-0">
+                  <div class="flex items-center h-5">
+                    <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="cursor-pointer mt-1 w-3 h-3 accent-[#e10600] text-[#e10600] rounded  focus:ring-[#e10600] ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                    onChange={() => setBigTv(!bigTv)}/>
+                  </div>
+                  <div class="ms-2 text-sm mt-[2px]">
+                    <p class="font-medium text-gray-300 text-[12px]">big TV screen</p>
+                  </div>
+                </div> 
+
+                <div class="flex ml-4 mt-0 mb-0">
+                  <div class="flex items-center h-5">
+                    <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="cursor-pointer mt-1 w-3 h-3 accent-[#e10600] text-[#e10600] rounded  focus:ring-[#e10600] ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                    onChange={() => setAccessible(!accessible)}/>
+                  </div>
+                  <div class="ms-2 text-sm mt-[2px]">
+                    <p class="font-medium text-gray-300 text-[12px]">accessible for the disabled</p>
+                  </div>
+                </div> 
+               </div>
 
 
                 <div className="px-3 sm:w-2/3 mb-4 ">
@@ -260,22 +304,56 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
                   </select>
                 </div>
 
-
-
                 <div className="px-3 sm:w-1/3">
-                  <label
-                    htmlFor="zone"
-                    className="mb-2 block text-base text-white">Zone
+                  <label htmlFor="guest" className="mb-2 mt-[2px] block text-[14px] text-white">
+                    Number of tickets
                   </label>
-                  <select id="zone" className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    onChange={(e) => { setZone(JSON.parse(e.target.value)) }}>
-                    <option defaultValue>Choose zone</option>
-                    {zones.map((item) => <option value={JSON.stringify(item)}>{item.naziv}</option>)}
-                  </select>
+                  <input
+                    type="number"
+                    name="guest"
+                    id="guest"
+                    defaultValue={1}
+                    step={1}
+                    min="1"
+                    className="w-full appearance-none rounded-md border border-[#e0e0e0] bg-white py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:shadow-md"
+                    onChange={(e) => setNumberOfTickets(e.target.value)}
+                  />
                 </div>
 
 
+
+               
+
+
+
+                {hasPromo ? <div className="w-full px-3">
+                  <div className="mb-4">
+                    <label htmlFor="email" className="mb-2 block text-base text-white">Promo Code</label>
+                    <input
+                      type="text"
+                      name="promocode"
+                      id="promocode"
+                      placeholder=""
+                      className="w-full rounded-md border border-[#e0e0e0] bg-gray-300 py-2 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                      onChange={(e) => setPromoCode(e.target.value)}
+                    />
+                  </div>
+                </div> : null}
+                
+                <div class="flex ml-4 mt-0 mb-3">
+                  <div class="flex items-center h-5">
+                    <input id="helper-checkbox" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="cursor-pointer mt-1 w-3 h-3 accent-[#e10600] text-[#e10600] rounded  focus:ring-[#e10600] ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                    onChange={() => setHasPromo(!hasPromo)}/>
+                  </div>
+                  <div class="ms-2 text-sm">
+                    <p class="font-medium text-gray-300 text-[12px]">I have promo code</p>
+                    <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 text-[10px]">With your friend's promo code you can get 5% discount</p>
+                  </div>
+                </div> 
+
+                <div className='ml-4 w-full'>
                 {selectedRaces.map((item) => { return <p className="text-gray-300 text-[12px] flex items-center gap-1"><FaCheck />Race {item.id} booked successfully.</p>; })}
+                </div>
 
 
                 <div className="px-3 flex justify-between w-full">
@@ -315,7 +393,7 @@ export default function ReservationForm({ user, setReservationForm, setHomePage,
 
 
 
-  return <ConfirmReservationForm selectedRaces={selectedRaces} reservations={reservations} fullReservations={fullReservations} user={user} setConfirmation={setConfirmation} setHomePage = {setHomePage} setReservationForm = {setReservationForm}/>
+  return <ConfirmReservationForm selectedRaces={selectedRaces} reservations={reservations} fullReservations={fullReservations} user={user} setConfirmation={setConfirmation} setHomePage = {setHomePage} setReservationForm = {setReservationForm} promoCode = {promoCode}/>
 
 }
 

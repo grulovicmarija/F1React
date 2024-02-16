@@ -2,15 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 
-export default function List({ fullReservations, reservations, setDone, setHomePage, setReservationForm}) {
+export default function List({ fullReservations, reservations, setDone, setHomePage, setReservationForm, promoCode, user}) {
 
 
 
     function handleSubmit(e) {
         e.preventDefault(); 
 
+        const urlPromoCode = `https://localhost:7012/promoKod/${user.id}/${promoCode}`; 
         const url = "https://localhost:7012/api/Rezervacije";
 
+
+        
 
         reservations.forEach(async element => {
             try {
@@ -22,6 +25,18 @@ export default function List({ fullReservations, reservations, setDone, setHomeP
         });
 
         setTimeout(() => {setDone(true)}, 3000);
+
+        if(promoCode!=null && promoCode!="")
+        {
+            axios.get(urlPromoCode)
+            .then((result) => { 
+                
+            })
+            .catch((err) => { 
+                alert("Invalid promo code. This does not affect the creation of your reservations"); 
+            });
+        }
+       
        
 
     }
@@ -41,7 +56,7 @@ export default function List({ fullReservations, reservations, setDone, setHomeP
                                     {<IoLocationOutline className="text-[12px] text-white" />}{item.trka.grad.naziv}</span>
                                 </div></dt>
                             {item.brojKarata === 1 ? <dd class="text-gray-500 text-[13px]">Booking {item.brojKarata} ticket for <span className="text-gray-300 text-[11px]">{item.zona.naziv}</span></dd> : <dd class="text-lg text-white">Booking {item.brojKarata} tickets</dd>}
-                            <dd className="text-gray-500 text-[17px] mt-[8px]">{item.zona.cenaKarte} x {item.brojKarata} | <span className="text-gray-400">{item.zona.cenaKarte * item.brojKarata} RSD</span></dd>
+                            <dd className="text-gray-500 text-[17px] mt-[8px]">{item.zona.cenaKarte} x {item.brojKarata} | <span className="text-gray-400">{item.zona.cenaKarte * item.brojKarata} EUR</span></dd>
 
                         </div>
                     )

@@ -143,7 +143,7 @@ export default function SignUpForm({setUser, setLogInForm, setSignUpForm, setRes
 
     return(
         <>
-        <section className="h-[120vh] bg-cover bg-[url('assets/talas2.png')] bg-gray-400 bg-blend-multiply flex items-center justify-center">
+        <section className="h-[130vh] bg-cover bg-[url('assets/talas2.png')] bg-gray-400 bg-blend-multiply flex items-center justify-center">
     
         <div className="flex items-center justify-center p-0">
         <div className="mx-auto w-full h-full max-w-[700px]">

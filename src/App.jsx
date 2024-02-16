@@ -34,7 +34,7 @@ export default function App() {
         {signUpForm ? <SignUpForm setUser={setUser} setLogInForm={setLogInForm} setSignUpForm={setSignUpForm} setReservationForm={setReservationForm} setHomePage={setHomePage} setBackToReservation={setBackToReservation}/> : null}
         {reservationForm ? <ReservationForm user={user} setReservationForm={setReservationForm} setHomePage={setHomePage} setLogInForm={setLogInForm} 
             setDeleteForm = {setDeleteForm} setBackToReservation={setBackToReservation} setAllRacesForm={setAllRacesForm}/> : null}
-        {deleteForm ? <DeleteTicketForm setDeleteForm = {setDeleteForm} setAllRacesForm={setAllRacesForm}/> : null}
+        {deleteForm ? <DeleteTicketForm setDeleteForm = {setDeleteForm} setAllRacesForm={setAllRacesForm} setReservationForm={setReservationForm}/> : null}
         {allRacesForm ? <ReservationsMessage user={user} setHomePage={setHomePage} setReservationForm={setReservationForm} backToReservationForm={backToReservation} setAllRacesForm={setAllRacesForm}/> : null }
         {racersList ? <RacersList setRacersList={setRacersList} racersForList={racersForList} setRacersForList={setRacersForList}/> : null }
 
