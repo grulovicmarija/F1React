@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+  /* background: rgb(238, 174, 202);
+  background: radial-gradient(
+    circle,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(199, 233, 148, 1) 100%
+  ); */
+}
+
+h1 {
+  text-align: center;
+  margin: 2rem 0 4rem 0;
+}
+
+.badge:hover { 
+  
+  background-color: rgba(142, 137, 137, 0.397);
+
+}
+
+.badge { 
+  transition: all 0.2s ease;
+}
+
+:hover.racercard { 
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.racercard { 
+  transition: all 0.3s ease;
+
+}
+
+.formBackground { 
+  position: fixed;
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  top: 0;
+  height: 100%;
+  width: 100%;
+  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.116); 
+  display: flex; 
+  justify-content: center;
+  overflow: scroll;
+}
+
+.formBackground::-webkit-scrollbar {
+  display: none;
+}
