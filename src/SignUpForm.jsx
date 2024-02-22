@@ -70,7 +70,6 @@ export default function SignUpForm({setUser, setLogInForm, setSignUpForm, setRes
         .then((result) => { 
             //result - user
             setUser(result.data); 
-            //ugasi forma 
             setSignUpForm(false); 
             setReservationForm(true); 
         }
@@ -82,16 +81,6 @@ export default function SignUpForm({setUser, setLogInForm, setSignUpForm, setRes
         setLogInForm(true); 
         setSignUpForm(false);
     } 
-
-    function handleBookAnotherOne(e) { 
-      e.preventDefault();
-      let newarray = selectedRaces.concat(JSON.parse(race)); 
-      setSelectedRaces(newarray);
-      console.log(selectedRaces);
-  }
-
-
-
 
     function getRaces() { 
         axios.get("https://localhost:7012/api/Trke/trke")
